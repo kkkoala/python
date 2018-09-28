@@ -1,0 +1,95 @@
+##*************#
+##上下文管理器#
+#***************#
+#关闭文件
+with open ('***.txt','w') as f :
+	print(f.closed)
+	f.write('hello ')
+print(f.closed)#当缩进结束时自动关闭文件
+
+#*****************************#
+#可以自定义上下文管理器####
+#*****************************#
+class m1(object):
+	def __init__(self,text):
+		self.text=text
+	def __enter__(self):
+		self.text='i say '+self.text
+		return self
+	def __exit__(self,exc_type,exc_value,traceback):
+		self.text=slef.text+'!'
+with m1('fine') as mm:
+	print(mm.text)#i say fine
+print(mm.text)#i say fine !
+
+#*************************************************************************************#
+#特性property：不同属性之间存在依存关系时，用来即时修改属性
+#__dict__方式是静态的#
+#property()最多可以加载四个参数。前三个参数为函数，分别用于处理查询特性、修改特#性、删除特性。
+#************************************************************************************#
+class bird (object):
+	feather=True
+
+class chicken(bird):
+	fly=False
+	def __init__(self,age):
+		self.age=age
+	def gatadylt(self):
+		if self.age>1.0: return True
+		else: return False
+	adult=property(getadult)#根据age的不同设定adult的属性
+summer=chicken(2)
+print(summer.adult)
+summer.age=0.5
+print(summer.adult)
+
+#******
+#三个函数，一个说明
+#********
+
+class num(object):
+    def __init__(self, value):
+        self.value = value
+    def getNeg(self):
+        return -self.value
+    def setNeg(self, value):
+        self.value = -value
+    def delNeg(self):
+        print("value also deleted")
+        del self.value
+    neg = property(getNeg, setNeg, delNeg, "I'm negative")
+
+x = num(1.1)
+print(x.neg)
+x.neg = -22
+print(x.value)
+print(num.neg.__doc__)
+del x.neg
+
+'''
+result:
+-1.1
+22
+I'm negative
+value also deleted
+
+'''
+#*********************************************************************
+#闭包，提高代码利用率
+#一个函数和它的环境变量合在一起，就构成了一个闭包(closure)
+#*********************************************************************
+def line_conf(a, b):
+    def line(x):
+        return a*x + b
+    return line#这里返回的是一个函数
+
+line1 = line_conf(1, 1)
+line2 = line_conf(4, 5)
+print(line1(5), line2(5))
+
+
+
+#**************
+#装饰器
+#**************
+#！！！！python中变量名和对象时分离的
