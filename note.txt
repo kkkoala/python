@@ -119,3 +119,10 @@ def log(func):
         return func(*args, **kw)
     return wrapper
  '''
+ '''
+当我们编写Python库模块的时候，我们往往运行一些测试语句。
+当这个程序作为库被import的时候，我们并不需要运行这些测试语句。
+一种解决方法是在import之前，#将模块中的测试语句注释掉。Python有一种更优美的解决方法，就是使用__name__。
+当直接运行时__name__为"__main__"。如果被import的话，__name__为"TestLib"，我们可以将相应的测试语句写入
+if __name__ == '__main__':判断语句之中
+'''
